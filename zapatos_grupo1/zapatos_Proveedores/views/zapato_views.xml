@@ -1,0 +1,6 @@
+<record id="action_zapatos_proveedores" model="ir.actions.act_window">
+        <name>Administración de Proveedores</name>
+        <res_model>zapatos.zapato</res_model>
+        <view_mode>tree,form</view_mode>
+    </record>
+    
