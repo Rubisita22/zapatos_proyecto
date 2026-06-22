@@ -4,11 +4,12 @@
         <field name="name">zapatos.venta.list</field>
         <field name="model">zapatos.venta</field>
         <field name="arch" type="xml">
-            <list string="Ventas de Zapatos">
-                <field name="fecha_venta"/>
-                <field name="cliente_id"/>
+        
+            <list string="Ventas de Zapatos" decoration-success="total &gt;= 100" decoration-info="cantidad &gt; 3">
+                <field name="fecha_venta" widget="date"/>
+                <field name="cliente_id" widget="many2one_avatar"/>
                 <field name="zapato_id"/>
-                <field name="cantidad"/>
+                <field name="cantidad" avg="Promedio por Venta"/>
                 <field name="precio_unitario"/>
                 <field name="total" sum="Total General"/>
             </list>
@@ -21,29 +22,51 @@
         <field name="arch" type="xml">
             <form string="Registro de Venta">
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <span class="text-muted">Registro de Venta</span>
+                        </h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="cliente_id"/>
-                            <field name="zapato_id"/>
+                        <group string="Información del Cliente y Producto">
+                            <field name="cliente_id" options="{'no_create': True}"/>
+                            <field name="zapato_id" options="{'no_create': True}"/>
                             <field name="fecha_venta"/>
                         </group>
-                        <group>
+                        <group string="Valores de Operación">
                             <field name="cantidad"/>
                             <field name="precio_unitario"/>
-                            <field name="total" readonly="1"/>
+    
+                            <field name="total" readonly="1" class="oe_subtotal_footer_separator"/>
                         </group>
                     </group>
+            
+                    <notebook>
+                        <tab string="Observaciones Adicionales">
+                            <field name="description" placeholder="Escribe aquí detalles sobre la entrega o condiciones de la venta..." widget="html"/>
+                        </tab>
+                    </notebook>
                 </sheet>
+                
+        
+                <chatter/>
             </form>
         </field>
     </record>
+
 
     <record id="action_zapatos_venta" model="ir.actions.act_window">
         <field name="name">Ventas de Zapatos</field>
         <field name="res_model">zapatos.venta</field>
         <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Registra tu primera venta de calzado!
+            </p>
+            <p>
+            </p>
+        </field>
     </record>
-
     <menuitem id="menu_zapatos_venta_action" 
               name="Ventas de Calzado" 
               parent="zapatos.menu_zapatos_root" 
